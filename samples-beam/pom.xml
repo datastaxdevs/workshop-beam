@@ -21,20 +21,6 @@
   </properties>
 
   <dependencies>
-
-    <!-- Read From Cassandra -->
-    <dependency>
-      <groupId>org.apache.beam</groupId>
-      <artifactId>beam-sdks-java-io-cassandra</artifactId>
-    </dependency>
-
-    <!-- Read From Pulsar -->
-    <dependency>
-      <groupId>org.apache.beam</groupId>
-      <artifactId>beam-sdks-java-io-pulsar</artifactId>
-      <version>2.48.0</version>
-    </dependency>
-
     <!-- Write into Astra -->
     <dependency>
       <groupId>com.datastax.astra</groupId>

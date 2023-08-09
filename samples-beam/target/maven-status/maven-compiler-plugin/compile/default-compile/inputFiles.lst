@@ -1,9 +1,0 @@
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/AbstractCassIOEntity.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/FableDto.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/SimpleFableDbMapper.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/FableDao.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/FableDaoMapperFactoryFn.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/Fable.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/fable/FableDaoMapper.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/genai/GenAI_02_CreateEmbeddings.java
-/Users/cedricklunven/dev/datastax/workshops/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/genai/GenAI_01_ImportData.java

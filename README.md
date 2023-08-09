@@ -167,7 +167,7 @@ astra org
 > ```
 
 
-#### ✅ `6` - Create a Database `demo` and a keyspace `samples_beam`
+#### ✅ `6` - Create destination Database and a keyspace
 
 > ℹ️ You can notice we enabled the Vector Search capability 
 
@@ -201,6 +201,20 @@ astra db describe workshop_beam
 > 
 > ![](./img/astra-db-describe.png)
 
+#### ✅ `7` - Create Destination table
+
+- Create Table:
+
+```bash
+astra db cqlsh workshop_beam -k beam \
+  -e  "CREATE TABLE IF NOT EXISTS fable(document_id TEXT PRIMARY KEY, title TEXT, document TEXT)"
+```
+
+- Show Table:
+
+```bash
+astra db cqlsh workshop_beam -k beam -e "SELECT * FROM  fable"
+```
 
 #### ✅ `7` - Setup env variables
 
@@ -216,17 +230,16 @@ astra db create-dotenv workshop_beam
 cat .env
 ```
 
-
 - Load env variables
+
 ```
 set -a
 source .env
 set +a
-
 env | grep ASTRA
 ```
 
-#### ✅ `8` - Build the project
+#### ✅ `8` - Setup project
 
 This command will allows to validate that Java , maven and lombok are working as expected
 
@@ -234,5 +247,32 @@ This command will allows to validate that Java , maven and lombok are working as
 mvn clean compile
 ```
 
-- Open the first Flow to load a CSV
+#### ✅ `9` - Run Importing flow
 
+- Open the CSV. It is very short and simple for demo purpose (and open API prices laters :) ).
+
+```bash
+/workspace/workshop-beam/samples-beam/src/main/resources/fables_of_fontaine.csv
+```
+
+- Open the Java file with the code
+
+```bash
+gp open /workspace/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/genai/GenAI_01_ImportData.java
+```
+
+![](https://awesome-astra.github.io/docs/img/google-cloud-dataflow/genai-01.png)
+
+
+- Run the Flow
+
+```
+cd samples-beam
+mvn clean compile exec:java \
+ -Dexec.mainClass=com.datastax.astra.beam.genai.GenAI_01_ImportData \
+ -Dexec.args="\
+ --astraToken=${ASTRA_DB_APPLICATION_TOKEN} \
+ --astraSecureConnectBundle=${ASTRA_DB_SECURE_BUNDLE_URL} \
+ --astraKeyspace=${ASTRA_DB_KEYSPACE} \
+ --csvInput=`pwd`/src/main/resources/fables_of_fontaine.csv"
+ ```

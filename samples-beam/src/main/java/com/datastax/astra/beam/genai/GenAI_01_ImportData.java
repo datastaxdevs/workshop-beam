@@ -61,11 +61,6 @@ public class GenAI_01_ImportData {
                     // Convert each CSV row to a LanguageCode bean
                     .apply("Convert To Cassandra Bean", MapElements.via(new MapCsvRowToFable()))
 
-                    // Single Operation perform in the constructor of PTransform
-                    .apply("Create Destination Table", new RunCqlQueryFn<>(options.getAstraToken(),
-                            scbZip, options.getAstraKeyspace(),
-                            Fable.cqlCreateTable(options.getAstraKeyspace())))
-
                     // Insert Results Into Astra
                     .apply("Write Into Astra", AstraDbIO.<FableDto>write()
                             .withToken(options.getAstraToken())
