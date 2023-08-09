@@ -8,6 +8,8 @@
 
 ## 📋 Table of content
 
+<img src="https://github.com/datastaxdevs/workshop-beam/blob/main/img/home.png?raw=true" align="right" width="250px"/>
+
 [**HouseKeeping**](#housekeeping)
 - [Objectives](#objectives)
 - [Frequently asked questions](#frequently-asked-questions)
@@ -335,7 +337,7 @@ astra db cqlsh workshop_beam -k beam -e "SELECT * FROM  fable"
 ```
 
  #### ✅ `3` Create Google Project 
- 
+
  ![](https://awesome-astra.github.io/docs/img/google-cloud-dataflow/astra-to-bigquery.png)
 
 - Create GCP Project
