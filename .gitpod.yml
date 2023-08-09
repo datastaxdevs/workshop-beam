@@ -10,3 +10,8 @@ tasks:
       clear
       astra
 
+vscode:
+  extensions:
+    - redhat.java
+    - gabrielbb.vscode-lombok
+

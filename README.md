@@ -204,15 +204,15 @@ astra db describe workshop_beam
 
 #### ✅ `7` - Setup env variables
 
-- Create file with var
+- Create `.env` file with variables
 
 ```bash
 astra db create-dotenv workshop_beam 
 ```
 
-- Show the file
+- Display the file
 
-```
+```bash
 cat .env
 ```
 
@@ -225,3 +225,14 @@ set +a
 
 env | grep ASTRA
 ```
+
+#### ✅ `8` - Build the project
+
+This command will allows to validate that Java , maven and lombok are working as expected
+
+```
+mvn clean compile
+```
+
+- Open the first Flow to load a CSV
+

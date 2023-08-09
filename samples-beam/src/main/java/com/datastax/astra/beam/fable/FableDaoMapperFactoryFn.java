@@ -19,10 +19,6 @@ package com.datastax.astra.beam.fable;
  * limitations under the License.
  * #L%
  */
-
-import com.datastax.astra.beam.lang.LanguageCode;
-import com.datastax.astra.beam.lang.LanguageCodeDao;
-import com.datastax.astra.beam.lang.LanguageCodeDaoMapperBuilder;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.Row;
 import org.apache.beam.sdk.io.astra.db.mapping.AstraDbMapper;
