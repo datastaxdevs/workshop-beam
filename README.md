@@ -8,7 +8,7 @@
 
 ## 📋 Table of content
 
-[**HOUSEKEEPING**](#)
+[**HouseKeeping **](#)
 - [Objectives](#objectives)
 - [Frequently asked questions](#frequently-asked-questions)
 - [Materials for the Session](#materials-for-the-session)
@@ -21,11 +21,15 @@
 - [05. Setup CLI](#)
 - [06. Create Database](#)
 - [07. Setup env variables](#)
+- [07. Setup env variables](#)
 
 
+[**WalkThrough**](#1-database-initialization)
+- [01. Compute Embeddings](#-1---create-your-datastax-astra-account)
+- [02. Show results](#-1---create-your-datastax-astra-account)
 
----- 
 
+----
 ## HouseKeeping
 
 ### Objectives
@@ -272,7 +276,25 @@ mvn clean compile exec:java \
  -Dexec.mainClass=com.datastax.astra.beam.genai.GenAI_01_ImportData \
  -Dexec.args="\
  --astraToken=${ASTRA_DB_APPLICATION_TOKEN} \
- --astraSecureConnectBundle=${ASTRA_DB_SECURE_BUNDLE_URL} \
+ --astraSecureConnectBundle=${ASTRA_DB_SECURE_BUNDLE_PATH} \
  --astraKeyspace=${ASTRA_DB_KEYSPACE} \
  --csvInput=`pwd`/src/main/resources/fables_of_fontaine.csv"
  ```
+
+ #### ✅ `10` - Validate Data
+
+ ```bash
+astra db cqlsh workshop_beam -k beam -e "SELECT * FROM  fable"
+```
+
+
+----
+
+## WalkThrough
+
+ #### ✅ `1` Run Flow Compute
+
+
+ #### ✅ `2` Validate Output
+
+
