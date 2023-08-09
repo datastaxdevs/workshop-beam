@@ -5,7 +5,6 @@
 [![License Apache2](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Discord](https://img.shields.io/discord/685554030159593522)](https://discord.com/widget?id=685554030159593522&theme=dark)
 
-> ⚠️ Difficulty: **`Intermediate`, we expect you to already know Java, Maven. **
 
 ## 📋 Table of content
 
@@ -15,12 +14,17 @@
 - [Materials for the Session](#materials-for-the-session)
 
 [**LAB**](#1-database-initialization)
-- [01 - Create Astra Account](#-1---create-your-datastax-astra-account)
-- [02 - Create Astra Token](#-2---create-an-astra-token)
+- [01. Create Astra Account](#-1---create-your-datastax-astra-account)
+- [02. Create Astra Token](#-2---create-an-astra-token)
+- [03. Copy the token](#-3---copy-the-token-value-in-your-clipboard)
+- [04. Open Gitpod](#)
+- [05. Setup CLI](#)
+- [06. Create Database](#)
+- [07. Setup env variables](#)
 
-[**LAB2 - Working with Apache Beam**](#2---astra-block-quick-start)
-- [2.1 - Request Access](#21---request-access)
-- [2.2 - Create Astra Block DB (optional)](#22---create-astra-block-db)
+
+
+---- 
 
 ## HouseKeeping
 
@@ -123,28 +127,101 @@ The Token is in fact three separate strings: a `Client ID`, a `Client Secret` an
 
 You can also leave the windo open to copy the value in a second.
 
-#### `4` - Open Gitpod
+#### ✅ `4` - Open Gitpod
 
 > 
 > ↗️ _Right Click and select open as a new Tab..._
 >
-> [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/datastaxdevs/workshop-beam)
+> [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/datastaxdevs/workshop-beam)
 > 
+
+
+![](./img/gitpod.png)
 
 
 #### ✅ `5` - Set up the CLI with your token
 
 _In gitpod, in a terminal window:_
 
-```
+- Login
+
+```bash
 astra login --token AstraCS:fake
 ```
+
+- Validate your are setup
+
+```bash
+astra org
+```
+
+> **Output**
+> ```
+> gitpod /workspace/workshop-beam (main) $ astra org
+> +----------------+-----------------------------------------+
+> | Attribute      | Value                                   |
+> +----------------+-----------------------------------------+
+> | Name           | cedrick.lunven@datastax.com             |
+> | id             | f9460f14-9879-4ebe-83f2-48d3f3dce13c    |
+> +----------------+-----------------------------------------+
+> ```
+
 
 #### ✅ `6` - Create a Database `demo` and a keyspace `samples_beam`
 
 > ℹ️ You can notice we enabled the Vector Search capability 
 
+- Create db `workshop_beam` and wait for the DB to become active
+
 ```
-astra db create demo -k samples_beam --vector --if-not-exists
+astra db create workshop_beam -k beam --vector --if-not-exists
 ```
 
+> 💻 Output
+> 
+> ![](./img/astra-db-create.png)
+
+- List databases
+
+```
+astra db list
+```
+
+> 💻 Output
+> 
+> ![](./img/astra-db-list.png)
+
+- Describe your db
+
+```
+astra db describe workshop_beam
+```
+
+> 💻 Output
+> 
+> ![](./img/astra-db-describe.png)
+
+
+#### ✅ `7` - Setup env variables
+
+- Create file with var
+
+```bash
+astra db create-dotenv workshop_beam 
+```
+
+- Show the file
+
+```
+cat .env
+```
+
+
+- Load env variables
+```
+set -a
+source .env
+set +a
+
+env | grep ASTRA
+```
