@@ -8,7 +8,7 @@
 
 ## 📋 Table of content
 
-[**HouseKeeping **](#)
+[**HouseKeeping**](#housekeeping)
 - [Objectives](#objectives)
 - [Frequently asked questions](#frequently-asked-questions)
 - [Materials for the Session](#materials-for-the-session)
@@ -17,17 +17,18 @@
 - [01. Create Astra Account](#-1---create-your-datastax-astra-account)
 - [02. Create Astra Token](#-2---create-an-astra-token)
 - [03. Copy the token](#-3---copy-the-token-value-in-your-clipboard)
-- [04. Open Gitpod](#)
-- [05. Setup CLI](#)
-- [06. Create Database](#)
-- [07. Setup env variables](#)
-- [07. Setup env variables](#)
+- [04. Open Gitpod](#-4---open-gitpod)
+- [05. Setup CLI](#-5---set-up-the-cli-with-your-token)
+- [06. Create Database](#-6---create-destination-database-and-a-keyspace)
+- [07. Create Destination Table](#-7---create-destination-table)
+- [08. Setup env variables](#-8---setup-env-variables)
+- [09. Setup Project](#-9---setup-project)
+- [10. Run Importing Flow](#-10---run-importing-flow)
+- [11. Validate Data](#-11---validate-data)
 
-
-[**WalkThrough**](#1-database-initialization)
-- [01. Compute Embeddings](#-1---create-your-datastax-astra-account)
-- [02. Show results](#-1---create-your-datastax-astra-account)
-
+[**WalkThrough**](#walkthrough)
+- [01. Compute Embeddings](#-1-run-flow-compute)
+- [02. Show results](#-2-validate-output)
 
 ----
 ## HouseKeeping
@@ -80,8 +81,6 @@ Attending the session is not enough. You need to complete the homeworks detailed
 </details>
 <p/>
 
-> [🏠 Back to Table of Contents](#-table-of-content)
-
 ### Materials for the Session
 
 It doesn't matter if you join our workshop live or you prefer to work at your own pace,
@@ -99,9 +98,9 @@ we have you covered. In this repository, you'll find everything you need for thi
 > ℹ️ Account creation tutorial is available in [awesome astra](https://awesome-astra.github.io/docs/pages/astra/create-account/)
 
 
-_click the image below or go to [https://astra.datastax./com](https://astra.datastax./com)_
+_click the image below or go to [https://astra.datastax./com](bit.ly/3QxhO6t)_
 
-<a href="https://astra.dev/3B7HcYo">
+<a href="bit.ly/3QxhO6t">
 <img src="https://awesome-astra.github.io/docs/img/astra/astra-signin-github-0.png" />
 </a>
 <br/>
@@ -220,7 +219,7 @@ astra db cqlsh workshop_beam -k beam \
 astra db cqlsh workshop_beam -k beam -e "SELECT * FROM  fable"
 ```
 
-#### ✅ `7` - Setup env variables
+#### ✅ `8` - Setup env variables
 
 - Create `.env` file with variables
 
@@ -243,7 +242,7 @@ set +a
 env | grep ASTRA
 ```
 
-#### ✅ `8` - Setup project
+#### ✅ `9` - Setup project
 
 This command will allows to validate that Java , maven and lombok are working as expected
 
@@ -251,7 +250,7 @@ This command will allows to validate that Java , maven and lombok are working as
 mvn clean compile
 ```
 
-#### ✅ `9` - Run Importing flow
+#### ✅ `10` - Run Importing flow
 
 - Open the CSV. It is very short and simple for demo purpose (and open API prices laters :) ).
 
@@ -281,20 +280,144 @@ mvn clean compile exec:java \
  --csvInput=`pwd`/src/main/resources/fables_of_fontaine.csv"
  ```
 
- #### ✅ `10` - Validate Data
+ #### ✅ `11` - Validate Data
 
  ```bash
 astra db cqlsh workshop_beam -k beam -e "SELECT * FROM  fable"
 ```
 
-
 ----
 
 ## WalkThrough
 
+![](https://awesome-astra.github.io/docs/img/google-cloud-dataflow/genai-02.png)
+
+We will now compute the embedding leveraging OpenAPI. It is not free, you need to provide your credit card to access the API. This part is a walkthrough. If you have an openAI key follow with me !
+
+
+- [Access OpenAI interface and create a key](https://platform.openai.com/account/api-keys)
+
+- [Learn more about the Embeddings API](https://platform.openai.com/docs/api-reference/embeddings)
+
+- [Leanr More about the third party library in use](https://platform.openai.com/docs/libraries/community-libraries)
+
+
  #### ✅ `1` Run Flow Compute
 
+- Setup Open AI
+
+```
+export OPENAI_API_KEY="<your_api_key>"
+```
+
+- Open the Java file with the code
+
+```bash
+gp open /workspace/workshop-beam/samples-beam/src/main/java/com/datastax/astra/beam/genai/GenAI_02_CreateEmbeddings.java
+```
+
+- Run the flow
+```
+mvn clean compile exec:java \
+ -Dexec.mainClass=com.datastax.astra.beam.genai.GenAI_02_CreateEmbeddings \
+ -Dexec.args="\
+ --astraToken=${ASTRA_DB_APPLICATION_TOKEN} \
+ --astraSecureConnectBundle=${ASTRA_DB_SECURE_BUNDLE_PATH} \
+ --astraKeyspace=${ASTRA_DB_KEYSPACE} \
+ --openAiKey=${OPENAI_API_KEY} \
+ --table=fable"
+```
 
  #### ✅ `2` Validate Output
 
+```bash
+astra db cqlsh workshop_beam -k beam -e "SELECT * FROM  fable"
+```
+
+ #### ✅ `3` Create Google Project 
+ 
+ ![](https://awesome-astra.github.io/docs/img/google-cloud-dataflow/astra-to-bigquery.png)
+
+- Create GCP Project
+
+> Note: If you don't plan to keep the resources that you create in this guide, create a project instead of selecting an existing project. After you finish these steps, you can delete the project, removing all resources associated with the project. Create a new Project in Google Cloud Console or select an existing one.
+
+In the Google Cloud console, on the project selector page, select or [create a Google Cloud project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
+
+#### ✅ `4` Enable Billing 
+
+Make sure that billing is enabled for your Cloud project. Learn how to [check if billing is enabled on a project](https://cloud.google.com/billing/docs/how-to/verify-billing-enabled)
+
+#### ✅ `5` Save project ID: 
+
+_The project identifier is available in the column `ID`. We will need it so let's save it as an environment variable_
+
+```bash
+export GCP_PROJECT_ID=integrations-379317
+export GCP_PROJECT_CODE=747469159044
+export GCP_USER=cedrick.lunven@datastax.com
+export GCP_COMPUTE_ENGINE=747469159044-compute@developer.gserviceaccount.com
+```
+
+#### ✅ `6` Download and install gCoud CLI
+
+```
+curl https://sdk.cloud.google.com | bash
+```
+
+Do not forget to open a new Tab.
+
+#### ✅ `7` Authenticate with Google Cloud
+
+Run the following command to authenticate with Google Cloud:
+
+- Execute:
+
+```
+gcloud auth login
+```
+
+- Authenticate as your google Account
+
+
+#### ✅ `8` Set your project: If you haven't set your project yet, use the following command to set your project ID:
+
+```
+gcloud config set project ${GCP_PROJECT_ID}
+gcloud projects describe ${GCP_PROJECT_ID}
+```
+
+#### ✅ `9` Enable needed API
+
+```
+gcloud services enable dataflow compute_component \
+   logging storage_component storage_api \
+   bigquery pubsub datastore.googleapis.com \
+   cloudresourcemanager.googleapis.com
+```
+
+#### ✅ `10` Add Roles to `dataflow` users:** To complete the steps, your user account must have the Dataflow Admin role and the Service Account User role. The Compute Engine default service account must have the Dataflow Worker role. To add the required roles in the Google Cloud console:
+
+```
+gcloud projects add-iam-policy-binding ${GCP_PROJECT_ID} \
+    --member="user:${GCP_USER}" \
+    --role=roles/iam.serviceAccountUser
+gcloud projects add-iam-policy-binding ${GCP_PROJECT_ID}  \
+    --member="serviceAccount:${GCP_COMPUTE_ENGINE}" \
+    --role=roles/dataflow.admin
+gcloud projects add-iam-policy-binding ${GCP_PROJECT_ID}  \
+    --member="serviceAccount:${GCP_COMPUTE_ENGINE}" \
+    --role=roles/dataflow.worker
+gcloud projects add-iam-policy-binding ${GCP_PROJECT_ID}  \
+    --member="serviceAccount:${GCP_COMPUTE_ENGINE}" \
+    --role=roles/storage.objectAdmin
+```
+
+
+#### ✅ `11` Make sure you are in `samples-dataflow` folder
+
+```bash
+cd samples-dataflow
+pwd
+```
 

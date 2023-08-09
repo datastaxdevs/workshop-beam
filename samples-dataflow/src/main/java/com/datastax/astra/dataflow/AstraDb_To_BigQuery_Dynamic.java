@@ -40,7 +40,7 @@ import java.io.Serializable;
 
  export GCP_PROJECT_ID=integrations-379317
  export GCP_BIGQUERY_DATASET=dataflow_input_us
- export GCP_BIGQUERY_TABLE=destination
+ export GCP_BIGQUERY_TABLE=fable
 
  mvn compile exec:java \
  -Dexec.mainClass=com.datastax.astra.dataflow.AstraDb_To_BigQuery_Dynamic \
@@ -60,7 +60,6 @@ public class AstraDb_To_BigQuery_Dynamic {
      * Logger for the class.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AstraDb_To_BigQuery_Dynamic.class);
-
 
     /**
      * Flow Interface
