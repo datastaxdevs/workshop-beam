@@ -14,9 +14,9 @@
 - [Frequently asked questions](#frequently-asked-questions)
 - [Materials for the Session](#materials-for-the-session)
 
-[**LAB1 - Database Initialization**](#1-database-initialization)
-- [1.1 - Create Astra Account](#11---create-an-astra-account)
-- [1.2 - Create Astra Token (optional)](#12---create-an-astra-token)
+[**LAB**](#1-database-initialization)
+- [01 - Create Astra Account](#-1---create-your-datastax-astra-account)
+- [02 - Create Astra Token](#-2---create-an-astra-token)
 
 [**LAB2 - Working with Apache Beam**](#2---astra-block-quick-start)
 - [2.1 - Request Access](#21---request-access)
@@ -88,6 +88,9 @@ we have you covered. In this repository, you'll find everything you need for thi
 
 #### ✅ `1` - Create your DataStax Astra account
 
+> ℹ️ Account creation tutorial is available in [awesome astra](https://awesome-astra.github.io/docs/pages/astra/create-account/)
+
+
 _click the image below or go to [https://astra.datastax./com](https://astra.datastax./com)_
 
 <a href="https://astra.dev/3B7HcYo">
@@ -95,13 +98,10 @@ _click the image below or go to [https://astra.datastax./com](https://astra.data
 </a>
 <br/>
 
-> :info: Account creation tutorial is also available here [this guide](https://awesome-astra.github.io/docs/pages/astra/create-account/)
 
 #### ✅ `2` - Create an Astra Token
 
-> An astra token acts as your credentials, it holds the different permissions. The scope of a token is the whole organization (tenant) but permissions can be edited to limit usage to a single database.
-
-To create a token, please follow [this guide](https://awesome-astra.github.io/docs/pages/astra/create-token/#c-procedure)
+> ℹ️ Token creation tutorial is available in [awesome astra](https://awesome-astra.github.io/docs/pages/astra/create-token/#c-procedure)
 
 - `Locate `Settings` (#1) in the menu on the left, then `Token Management` (#2) 
 
@@ -119,9 +119,11 @@ The Token is in fact three separate strings: a `Client ID`, a `Client Secret` an
 }
 ```
 
-Copy the token value in your clip board.
+#### ✅ `3` - Copy the token value in your clipboard
 
-#### 3 - Open Gitpod
+You can also leave the windo open to copy the value in a second.
+
+#### `4` - Open Gitpod
 
 > 
 > ↗️ _Right Click and select open as a new Tab..._
@@ -130,7 +132,7 @@ Copy the token value in your clip board.
 > 
 
 
-#### ✅ `4` - Set up the CLI with your token
+#### ✅ `5` - Set up the CLI with your token
 
 _In gitpod, in a terminal window:_
 
@@ -138,12 +140,11 @@ _In gitpod, in a terminal window:_
 astra login --token AstraCS:fake
 ```
 
-#### ✅ `5` - Create a Database `demo` and a keyspace `samples_beam`
+#### ✅ `6` - Create a Database `demo` and a keyspace `samples_beam`
 
-Notice we enabled the Vector Search capability 
+> ℹ️ You can notice we enabled the Vector Search capability 
 
 ```
 astra db create demo -k samples_beam --vector --if-not-exists
 ```
-
 
