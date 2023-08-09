@@ -31,6 +31,8 @@
 [**WalkThrough**](#walkthrough)
 - [01. Compute Embeddings](#-1-run-flow-compute)
 - [02. Show results](#-2-validate-output)
+- [03. Create Google Project](#)
+- [03. Create Google Project](#)
 
 ----
 ## HouseKeeping
@@ -398,7 +400,9 @@ gcloud services enable dataflow compute_component \
    cloudresourcemanager.googleapis.com
 ```
 
-#### ✅ `10` Add Roles to `dataflow` users:** To complete the steps, your user account must have the Dataflow Admin role and the Service Account User role. The Compute Engine default service account must have the Dataflow Worker role. To add the required roles in the Google Cloud console:
+#### ✅ `10` Add Roles to `dataflow` users
+
+To complete the steps, your user account must have the Dataflow Admin role and the Service Account User role. The Compute Engine default service account must have the Dataflow Worker role. To add the required roles in the Google Cloud console:
 
 ```
 gcloud projects add-iam-policy-binding ${GCP_PROJECT_ID} \
@@ -415,11 +419,70 @@ gcloud projects add-iam-policy-binding ${GCP_PROJECT_ID}  \
     --role=roles/storage.objectAdmin
 ```
 
+#### `11` - ✅ [Create secrets for the project in secret manager](https://cloud.google.com/secret-manager/docs/creating-and-accessing-secrets#secretmanager-create-secret-gcloud). 
 
-#### ✅ `11` Make sure you are in `samples-dataflow` folder
+To connect to `AstraDB` you need a token (credentials) and a zip used to secure the transport. Those two inputs should be defined as _secrets_.
+
+    ```
+    gcloud secrets create astra-token \
+       --data-file <(echo -n "${ASTRA_TOKEN}") \
+       --replication-policy="automatic"
+
+    gcloud secrets create cedrick-demo-scb \
+       --data-file ${ASTRA_SCB_PATH} \
+       --replication-policy="automatic"
+
+    gcloud secrets add-iam-policy-binding cedrick-demo-scb \
+        --member="serviceAccount:${GCP_COMPUTE_ENGINE}" \
+        --role='roles/secretmanager.secretAccessor'
+
+    gcloud secrets add-iam-policy-binding astra-token \
+        --member="serviceAccount:${GCP_COMPUTE_ENGINE}" \
+        --role='roles/secretmanager.secretAccessor'
+        
+    gcloud secrets list
+    ```
+
+#### ✅ `12` Make sure you are in `samples-dataflow` folder
 
 ```bash
 cd samples-dataflow
 pwd
 ```
 
+#### `13` ✅ Make sure you have those variables initialized
+
+We assume the table `languages` exists and has been populated in `3.1`
+
+```bash
+export ASTRA_SECRET_TOKEN=projects/747469159044/secrets/astra-token/versions/2
+export ASTRA_SECRET_SECURE_BUNDLE=projects/747469159044/secrets/secure-connect-bundle-demo/versions/1
+```
+
+#### `14` - ✅ Run the pipeline
+
+```bash
+mvn compile exec:java \
+ -Dexec.mainClass=com.datastax.astra.dataflow.AstraDb_To_BigQuery_Dynamic \
+ -Dexec.args="\
+ --astraToken=${ASTRA_SECRET_TOKEN} \
+ --astraSecureConnectBundle=${ASTRA_SECRET_SECURE_BUNDLE} \
+ --keyspace=${ASTRA_KEYSPACE} \
+ --table=fable \
+ --runner=DataflowRunner \
+ --project=${GCP_PROJECT_ID} \
+ --region=us-central1"
+```
+
+#### `15` - ✅ Show the Content of the Table
+
+A dataset with the keyspace name and a table 
+with the table name have been created in BigQuery.
+
+```bash
+bq head -n 10 ${ASTRA_KEYSPACE}.${ASTRA_TABLE}
+```
+
+
+----
+The END
