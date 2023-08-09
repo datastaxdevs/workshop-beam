@@ -31,8 +31,19 @@
 [**WalkThrough**](#walkthrough)
 - [01. Compute Embeddings](#-1-run-flow-compute)
 - [02. Show results](#-2-validate-output)
-- [03. Create Google Project](#)
-- [03. Create Google Project](#)
+- [03. Create Google Project](#-3-create-google-project)
+- [04. Enable project Billing](#-4-enable-billing)
+- [05. Save Project Id](#-5-save-project-id)
+- [06. Install gcloud CLI](#-6-download-and-install-gcoud-cli)
+- [07. Authenticate Against Google Cloud](#-7-authenticate-with-google-cloud)
+- [08. Select your project](#-8-set-your-project-)
+- [09. Enable Needed Apis](#-9-enable-needed-api)
+- [10. Setup Dataflow user](#-10-add-roles-to-dataflow-users)
+- [11. Create Secret](#11----create-secrets-for-the-project-in-secret-manager)
+- [12. Move in proper folder](#-12-make-sure-you-are-in-samples-dataflow-folder)
+- [13. Setup env var](#13--make-sure-you-have-those-variables-initialized)
+- [14. Run the pipeline](#14----run-the-pipeline)
+- [15. show Content of Table](#15----show-the-content-of-the-table)
 
 ----
 ## HouseKeeping
@@ -384,7 +395,9 @@ gcloud auth login
 - Authenticate as your google Account
 
 
-#### ✅ `8` Set your project: If you haven't set your project yet, use the following command to set your project ID:
+#### ✅ `8` Set your project
+
+If you haven't set your project yet, use the following command to set your project ID:
 
 ```
 gcloud config set project ${GCP_PROJECT_ID}
